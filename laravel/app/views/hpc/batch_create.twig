@@ -1,0 +1,13 @@
+{% extends "base" %}
+
+{% block body %}
+
+    <form action="/hpc/batches" method="POST">
+
+        batch name: <input type="text" name="batch_name" />
+
+        <input type="submit" value="Create Batch" />
+
+    </form>
+
+{% endblock %}

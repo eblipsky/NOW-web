@@ -1,0 +1,231 @@
+{% block includes %}
+<script>
+    $(document).on('change','input[name=queue_cmdtype]:radio',function(e) {    
+        if($(this).val()=='template') {
+            $("#queue_cmd").attr('disabled',true);
+            $("#queue_cmd").attr('rows','1');
+            $("#queue_template").attr('disabled',false);
+        } else {
+            $("#queue_cmd").attr('disabled',false);
+            $("#queue_cmd").attr('rows','10');
+            $("#queue_template").attr('disabled',true);
+        }
+    });
+    
+    //alert("::"+"{{queue.cmdtype}}");
+    
+    //$("#queue_cmd").autogrow();
+    
+    if("{{queue.cmdtype}}"=='template') {
+        $("#queue_cmd").attr('disabled',true);
+        $("#queue_cmd").attr('rows','1');                
+        $("#queue_template").attr('disabled',false);
+
+    } else {
+        $("#queue_cmd").attr('disabled',false);
+        $("#queue_cmd").attr('rows','10');        
+        $("#queue_template").attr('disabled',true);
+    }
+    
+    
+</script>
+{% endblock %}
+
+<form action="" id="editqueue" method="post" accept-charset="utf-8">
+    <table class='hovertable' style='width:100%;'>
+        <tr>
+            <th colspan='3'>{{queue.name}}</th>
+        </tr>
+        {% if queue.name != "error" and queue.name != "None" and queue.name != "done" %}
+        {% if queue.pipeline.name != "CommandTemplates" %}
+        <tr>
+            <td width='1px'>
+                <label for="queue_active">Active</label>
+            </td>
+            <td>
+                <div id="cmd">
+                    <img src="/laravel/public/img/help.png"/>
+                    <div class="cmdtext">If active the command will get executed for each file grabbed, if not active the command will be skipped and the files grabbed will be sent to the next task.</div>
+                </div>
+            </td>
+            <td>
+                <input type="checkbox" name="queue_active" value="active" {% if queue.active %} checked="checked" {% endif %} />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="queue_out">Next Task</label>                              
+            </td>
+            <td>
+                <div id="cmd">
+                    <img src="/laravel/public/img/help.png"/>
+                    <div class="cmdtext">Task you want the files queued into apon successful execution of the command</div>
+                </div>  
+            </td>
+            <td>
+                <select name="queue_out">
+                    {% for q in queues %}
+                    <option value="{{q}}" {% if queue.queue_out == q %} selected {% endif %}>{{q}}</option>
+                    {% endfor %}                    
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="queue_err">Error Task</label>                
+            </td>
+            <td>
+                <div id="cmd">
+                    <img src="/laravel/public/img/help.png"/>
+                    <div class="cmdtext">Task you want the files queued into apon unsuccessful execution of the command</div>
+                </div>  
+            </td>
+            <td>
+                <select name="queue_err">
+                    {% for q in queues %}
+                    <option value="{{q}}" {% if queue.queue_err == q %} selected {% endif %}>{{q}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="valid_check">valid check</label>
+            </td>
+            <td>
+                <div id="cmd">
+                    <img src="/laravel/public/img/help.png"/>
+                    <div class="cmdtext">python hook to test if command should be run for each file. default always returns true.</div>
+                </div>  
+            </td>
+            <td>
+                <input type="text" name="valid_check" value="{{queue.valid_check}}"  />
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td>
+                <label for="queue_desc">Description</label>
+            </td>
+            <td></td>
+            <td>
+                <input type="text" name="queue_desc" value="{{queue.description}}" style="width:99%" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="queue_cmd">Command</label>                 
+            </td>
+            <td>
+                 <div id="cmd">
+                    <img src="/laravel/public/img/help.png"/>
+                    <div class="cmdtext">Command that will be executed by the node for each file grabbed</div>
+                </div>
+            </td>
+            <td>
+                <table>
+                    <tr {% if queue.pipeline.name == "CommandTemplates" %}style="display:none"{% endif %}>
+                        <td>
+                            <input type="radio" name="queue_cmdtype" value="template" {% if queue.cmdtype == 'template' %} checked {% endif %}/>
+                        </td>
+                        <td>                            
+                            <select id="queue_template" name="queue_template" style="width:99%" {% if queue.cmdtype != 'template' %} disabled="disabled" {% endif %}>
+                                <option value="" {% if queue.template_cmd == cmd.name %} selected {% endif %}></option>
+                                {% for cmd in cmds %}
+                                <option value="{{cmd.name}}" {% if queue.template_cmd == cmd.name %} selected {% endif %}>{{cmd.name}}</option>
+                                {% endfor %}                    
+                            </select>                                
+                        </td>
+                    </tr>
+                    <tr>
+                        <td {% if queue.pipeline.name == "CommandTemplates" %}style="display:none"{% endif %}>
+                            <input type="radio" name="queue_cmdtype" value="local" {% if queue.cmdtype != 'template' %} checked {% endif %}/>
+                        </td>
+                        <td>
+                            <textarea name="queue_cmd" cols="40" rows="10" id="queue_cmd" style="width:98%" {% if queue.cmdtype == 'template' %} disabled="disabled" {% endif %}>{{queue.cmd}}</textarea>
+                        </td>
+                    </tr>
+                </table>                                
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="queue_file_output">File Output</label>                
+            </td>
+            <td>
+                <div id="cmd">
+                    <img src="/laravel/public/img/help.png"/>
+                    <div class="cmdtext">format your output when spliting as %fq%.?</div>
+                </div>
+            </td>
+            <td>
+                <label for="single">Single</label>
+                <input type="radio" name="queue_output" id="single" value="single" {% if queue.file_output == '' or queue.file_output == 'single' %} checked {% endif %}/></br>
+                <label for="demux">One to Many</label>
+                <input type="radio" name="queue_output" id="demux" value="demux" {% if queue.file_output == 'demux' %} checked {% endif %}/></br>
+                <label for="mux">Many to One</label>
+                <input type="radio" name="queue_output" id="mux" value="mux" {% if queue.file_output == 'mux' %} checked {% endif %}/>
+            </td>
+        </tr>
+        {% if queue.pipeline.name != "CommandTemplates" %}
+        <tr>
+            <td>
+                <label for="queue_files_cnt">File Count</label>                
+            </td>
+            <td>
+                <div id="cmd">
+                    <img src="/laravel/public/img/help.png"/>
+                    <div class="cmdtext">How many files the node should pull for execution of this command</div>
+                </div>  
+            </td>
+            <td>
+                <input type="text" name="queue_files_cnt" value="{{queue.file_cnt}}"  />
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td align='right'>
+                <input type="submit" class="updatequeue" name="update" value="update"  />
+            </td>
+        </tr>
+        {% else %}
+        <tr><td>This queue is not editable.</td></tr>
+        {% endif %}
+    </table>
+    
+
+    {% if queue.pipeline.name != "CommandTemplates" %}
+        {% if queue.name != "error" and queue.name != "None" and queue.name != "done" %}
+        <fieldset><legend>Command Parse</legend>
+            <table>
+                <tr>
+                    <td>{% autoescape false %}{{queue.cmdParse}}{% endautoescape %}</td>
+                </tr>
+            </table>
+        </fieldset>
+        {% endif %}     
+
+        <fieldset><legend>Current Files</legend>
+
+            <input type='checkbox' name='selectall' id='selectall'>Select all</input>            
+            <form action="" id="movefilesform" method="post" accept-charset="utf-8">
+
+                <select id="toqueue">                       
+                    {% for q in queues %}
+                    <option value="{{q}}">{{q}}</option>
+                    {% endfor %}                                
+                </select>       
+                <input type="submit" class="movefiles" name="move" value="move"  />            
+                <br />
+                <div id="CurrentFiles">    
+                    {% for fq in files %}
+                    {% include "hpc/file_info" %}
+                    {% endfor %}
+                </div>            
+            </form>        
+
+        </fieldset>
+    {% endif %}     
+</form>

@@ -1,0 +1,49 @@
+
+{% for node in nodes %}
+    
+<table width='400px' class='hovertable'>
+    <th colspan='5'>{{node.name}} [{{node.ver}}]</th>
+    <tr>
+        <td>Current Pipeline</td>
+        <td>Current Task</td>        
+        <td>Current File(s)</td>
+    </tr>   
+    <tr>
+        <td>
+            <select class="nodepipeline" node="{{node.name}}">               
+                <option value="" {% if node.pipeline == "" %} selected="selected" {% endif %}>No Pipeline</option>
+                <option value="Auto" {% if node.pipeline == "Auto" %} selected="selected" {% endif %}>Auto</option>
+                {% for pipeline in pipelines %}
+                <option value="{{pipeline.name}}" {% if node.pipeline == pipeline.name %} selected="selected" {% endif %}>{{pipeline.name}}</option>
+                {% endfor %}                                
+            </select>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td colspan="2">{{node.stage}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">                        
+                        <div id="cmd">
+                            <img src="/laravel/public/img/cmd.gif"/>
+                            <div class="cmdtext">{{node.cmds|raw}}</div>
+                        </div>            
+                    </td>
+                    <td style="text-align: center">Started:{{node.start_time}}</td>
+                </tr>
+            </table>
+        </td>        
+        <td style='white-space: normal;'>
+            <ul>
+            {% for file in node.files %}
+                    <li><a href="" id="showfilelog" fq="{{file}}">{{file}}</a></li>
+            {% endfor %}
+            </ul>
+        </td>
+    </tr>    
+
+</table>
+    
+{% endfor %}
+   

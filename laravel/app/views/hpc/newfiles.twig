@@ -1,0 +1,16 @@
+{% block include %}
+
+<script>
+    
+
+
+</script>
+{% endblock %}
+
+<table style='float:left' class='hovertable'>
+    * show list of files in the system <br/>
+    * show list of files NOT in the system <br/>
+    {% for file in newfiles %}
+    {{file}}<br/>
+    {% endfor %}
+</table>

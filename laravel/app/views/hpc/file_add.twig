@@ -1,0 +1,28 @@
+<fieldset>
+<legend>Available FQ List</legend>
+    <form action="" method="post" accept-charset="utf-8">       
+        <table>
+            <tr>
+                <td colspan="2"><input type="submit" class="startfiles" name="start" value="start"  /></td>
+            </tr>
+            <tr>
+                <td>
+                    <select name="avail" multiple sorted style="height:200px;width:275px">
+                        {% for fq in fqs %}
+                        <option value="{{fq.name}}">{{fq.name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <input id='filemoveright' type='button' value='->' />
+                    <br />
+                    <input id='filemoveleft' type='button' value='<-' />
+                </td>
+                <td>
+                    <select id="startfilelist" name="start[]" multiple style="height:200px;width:275px">
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</fieldset>   

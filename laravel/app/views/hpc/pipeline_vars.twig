@@ -1,0 +1,38 @@
+<form action="" id="pipelinevars" method="post" accept-charset="utf-8">
+    <table class='hovertable'>
+        <tr>
+            <th>Global</th>
+            <th>Command Variable</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td colspan='3' >* files reside in the REF_DIR</td>
+        </tr>
+        <tr>
+            <td>Reference Genome</td>
+            <td>%REF_HUMAN_GENOME%</td>
+            <td><input type="text" name="ref_genome" value="{{vars.genome}}"  /></td>
+        </tr>
+        <tr>
+            <td>Reference VCF</td>
+            <td>%REF_VCF%</td>
+            <td><input type="text" name="ref_vcf" value="{{vars.vcf}}"  /></td>
+        </tr>
+        <tr>
+            <td>Reference BED</td>
+            <td>%REF_BED%</td>
+            <td><input type="text" name="ref_bed" value="{{vars.bed}}"  /></td>
+        </tr>
+        <tr>
+            <td>Bait BED</td>
+            <td>%BAIT_BED%</td>
+            <td><input type="text" name="ref_bait" value="{{vars.bait}}"  /></td>
+        </tr>
+        <tr>
+            <td>Target BED</td>
+            <td>%TARGET_BED%</td>
+            <td><input type="text" name="ref_target" value="{{vars.target}}"  /></td>
+        </tr>        
+        <tr><td colspan='3' align='right'><input type="submit" class="updatepipelinevars" name="add" value="Update Globals"  /></td></tr>
+    </table>
+</form>

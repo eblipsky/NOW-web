@@ -1,0 +1,29 @@
+
+<style>   
+    
+    #progress {
+        width: 200px;   
+        border: 1px solid black;
+        position: relative;
+        padding: 0px;
+    }
+
+    #percent {    
+        position: absolute;   
+        color: black;
+        font-size: 10px;
+        left: 50%;
+        top: -35%;
+    }
+
+    #bar {
+        height: 12px; 
+        background-color: #FFC850;
+    }
+
+</style>
+
+<div id="progress">
+    <span id="percent">{{batch.percent_complete}}%</span>
+    <div id="bar" style="width: {{batch.percent_complete}}%"></div>
+</div>  

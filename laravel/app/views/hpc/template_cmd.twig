@@ -1,0 +1,16 @@
+<form action="" id="pipelinevars" method="post" accept-charset="utf-8">
+    <table class='hovertable'>
+        <tr>
+            <th>Name</th>
+            <th>Command</th>            
+        </tr>
+        
+        {% for cmd in cmds %}
+        <tr>
+            <td>{{cmd.name}}</td>
+            <td><div title="{{cmd.val}}">command</div></td>            
+        </tr>
+        {% endfor %}
+        
+    </table>
+</form>

@@ -1,0 +1,89 @@
+{% block include %}
+
+<script>
+    
+$(function() {    
+    $( "#dialog-form" ).dialog({
+        autoOpen: false,
+        height: 300,
+        width: 350,
+        modal: true,
+        buttons: { 
+            "Add": function() {                   
+                $.ajax({
+                    type:"POST",
+                    async: false,
+                    url: '/laravel/public/hpc/vars',
+                    data: { name: $('#name').val(), val: $('#val').val()}
+                }).done(function(retData) {                      
+                });
+                $( this ).dialog( "close" );
+                location.reload();
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }           
+        }
+    });
+});
+
+$(document).on("click","input.addglobalvars",function(e) {    
+    e.preventDefault();
+    $( "#dialog-form" ).dialog( "open" );
+});
+
+$(document).on("click","input.updateglobalvars",function(e) {    
+    e.preventDefault();
+    alert("update not done");
+    //loop through all rows calling update for each
+});
+
+$(document).on("click","a.deletegvar",function(e) {    
+    e.preventDefault();    
+    $.ajax({
+        type:"DELETE",
+        async: false,
+        url: '/laravel/public/hpc/vars/'+$(this).attr('var')        
+    }).done(function(retData) {          
+        location.reload();
+    });
+});
+
+</script>
+{% endblock %}
+
+<form action="" id="globalvars" method="post" accept-charset="utf-8">
+    <table class='hovertable'>
+        <tr>
+            <th>Variable Name</th>
+            <th>Value</th>
+            <th>Delete</th>
+        </tr>
+        {% for var in vars %}
+        <tr>
+            <td>%{{var.name}}%</td>
+            <td><input type="text" name="{{var.name}}" value="{{var.val}}"  /></td>
+            <td align="center"><a href="" class="deletegvar" var="{{var.name}}"><img src="/laravel/public/img/delete.jpg" alt="delete" /></a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan='3' align='right'>
+                <input type="submit" class="addglobalvars" name="add" value="Add Globals"  />
+                <input type="submit" class="updateglobalvars" name="update" value="Update Globals"  />
+            </td>
+        </tr>
+    </table>
+</form>
+
+<div id="dialog-form" title="Add Global Variable">
+    <table>
+        <tr>
+            <td>name</td>
+            <td><input type="text" id="name" /></td>
+        </tr>
+        <tr>
+            <td>value</td>
+            <td><input type="text" id="val" /></td>
+        </tr>        
+    </table>
+</div>

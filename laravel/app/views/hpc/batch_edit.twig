@@ -1,0 +1,106 @@
+{% extends "base" %}
+
+{% block include %}
+
+    <script src="/laravel/public/js/editor.js"></script>    
+    <script src="/laravel/public/js/monitor.js"></script>
+        
+    <style>
+            
+        #UsedPipelines, #AvailablePipelines { 
+            list-style-type: none; 
+            margin: 0; 
+            padding: 0; 
+            float: left; 
+            margin-right: 10px; 
+            background: #eee; 
+            padding: 5px;             
+            width: 200px;
+        }
+        #UsedPipelines li, #AvailablePipelines li { 
+            margin: 1px; 
+            padding: 1px;            
+            cursor: pointer;
+        }
+        
+        .item:hover {  }
+        
+    </style>
+    
+    <script>                             
+        
+        $(function() {
+            $( "#UsedPipelines, #AvailablePipelines" ).sortable({
+                connectWith: ".connectedSortable"
+            }).disableSelection();
+        });                
+        
+        var fqs = {{fqs|raw}};
+        
+        Editor.getFileList(true,fqs);   
+        
+        //ToDo: need to update FQ list and used pipelines to reflect what is set for the batch
+        
+        // start files
+        $(document).on("click", "#updateBatch", function(e){
+            e.preventDefault();        
+
+            var fqs = $("select[name='start\[\]'] option").map(function() {
+                return $(this).text();
+            }).get();
+
+            var queues = $("#UsedPipelines li").map(function() {
+                return $(this).text();
+            }).get();                                        
+            
+            $.ajax({
+                type:"PUT",
+                url: "/hpc/batches/{{batch.name}}",
+                data: { fqs: fqs, queues: queues }
+            }).done(function(retData) {  
+                //alert(retData);
+                location = "/hpc/batches";
+            }).error(function(e) {                
+                //alert(JSON.stringify(e));
+            }); 
+
+        });
+        
+    </script> 
+    
+{% endblock %}
+
+{% block body %}
+   
+    <h3>batch name: {{batch.name}}</h3>
+
+        <div id="FileList"></div>        
+        
+        <table>
+            <tr style="vertical-align: top;">
+                <td>
+                    <fieldset>                                
+                        <legend>Available Pipelines</legend> 
+                        <ul id="AvailablePipelines" class="connectedSortable">
+                            {% for pipeline in available_pipelines %}
+                                <li class="ui-state-default">{{pipeline.name}}</li>
+                            {% endfor %}
+                        </ul>
+                    </fieldset>
+                </td>
+                <td>
+                    <fieldset>                                
+                        <legend>Used Pipelines</legend> 
+                        <ul id="UsedPipelines" class="connectedSortable">
+                            {% for pipeline in used_pipelines %}
+                                <li class="ui-state-default">{{pipeline.name}}</li>
+                            {% endfor %}
+                        </ul>
+                    </fieldset>
+                </td>
+            </tr>    
+        </table>
+        
+        <input type="submit" id="updateBatch" value="Update Batch" />
+
+{% endblock %}

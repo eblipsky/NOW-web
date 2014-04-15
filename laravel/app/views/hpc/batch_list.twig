@@ -1,0 +1,130 @@
+{% extends "base" %}
+
+{% block include %}
+
+<script>                             
+
+    // start files
+    $(document).on("click", "a.startBatch", function(e){
+        e.preventDefault();        
+
+        $.ajax({
+            type:"GET",
+            url: "/hpc/batches/"+$(this).attr('batch')+"/start",
+        }).done(function(retData) {
+            //alert(retData);
+            //alert("batch started");                
+        }).error(function(e) {                
+            //alert(JSON.stringify(e));
+        }); 
+
+    });
+    
+    $(document).on("click", "a.viewBatch", function(e){
+        e.preventDefault(); 
+        
+        $.ajax({
+            type:"GET",
+            url: "/hpc/batches/"+$(this).attr('batch'),
+        }).done(function(retData) {
+            //alert(retData);
+            $("#BatchInfo").html(retData);                
+        }).error(function(e) {                
+            //alert(JSON.stringify(e));
+        }); 
+        
+    });   
+    
+    $(document).on("click", "input.createbatch", function(e){
+        e.preventDefault(); 
+        
+        $.ajax({
+            type:"POST",
+            async: false,
+            url: "/hpc/batches",
+            data: {batch_name: $("#batch").val()}
+        }).done(function(retData) {
+            //alert(retData);
+            location.reload();
+        }).error(function(e) {                
+            //alert(JSON.stringify(e));
+        });         
+        
+    });   
+       
+    function doRefresh() {
+  
+        $('div[id*=Progress]').each(function() {
+            var batch = $(this).attr('batch');
+        
+            $.ajax({
+                type:"GET",
+                url: "/hpc/batches/"+batch+'/progress',
+            }).done(function(retData) {
+                //alert(retData);
+                $("#Progress-"+batch ).html(retData);                           
+            }).error(function(e) {                
+                //alert(JSON.stringify(e));
+            }); 
+        });
+        
+    }
+
+    $(function() {
+        setInterval("doRefresh()", 3000) // 5000 = 5 seconds
+    });          
+
+</script> 
+
+
+{% endblock %}
+
+{% block body %}
+
+
+<table>
+    <tr>
+        <td>
+            <a href="/hpc/batches/create">Create Batch</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class='hovertable'>
+                <tr>
+                    <th>Name</th>
+                    <th>View</th>
+                    <th>Edit</th>            
+                    <th>Start</th>
+                    <th>Progress</th>            
+                </tr>   
+                {% for batch in batches %}    
+                <tr>
+                    <td>{{batch.name}}</td>
+                    <td><a class="viewBatch" href="#" batch="{{batch.name}}">View</a></td>
+                    <td><a href="/hpc/batches/{{batch.name}}/edit">Edit</a></td>            
+                    <td><a class="startBatch" batch="{{batch.name}}" href="#">Start</a></td>
+                    <td>
+                        <div id="Progress-{{batch.name}}" batch="{{batch.name}}"></div>
+                    </td>            
+                </tr>        
+                {% endfor %}
+                <tr>
+                    <td colspan="5">
+                        <input type="text" id="batch" value=""  />
+                        <input type="submit" class="createbatch" name="add" value="Add Batch"  />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="BatchInfo"></div>
+        </td>
+    </tr>
+</table>
+
+<script>doRefresh();</script>
+
+{% endblock %}

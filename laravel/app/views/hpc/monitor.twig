@@ -1,0 +1,120 @@
+{% extends "base" %}
+
+{% block include %}
+<script src="/laravel/public/js/editor.js"></script>
+<script src="/laravel/public/js/monitor.js"></script>
+<script>            
+    function doRefresh() {
+            if (refresh.checked == 1) {
+                Editor.getNodeList();
+                Editor.getQueueList();
+            }
+    }
+
+    $(function() {
+        setInterval("doRefresh()", 5000) // 5000 = 5 seconds
+    });    
+    
+    Editor.getGlobalVars();
+    Editor.getTemplateCmds();
+    Editor.getNewFiles();
+    Editor.getNodeList();
+
+</script>
+{% endblock %}
+
+{% block body %}
+<code>
+{{current_time}}<div style="float: right;">Auto Refresh<input style="vertical-align: top" type="checkbox" id="refresh" value="accept" /></div>
+</code>
+<table> 
+    <tr style="vertical-align: top;">
+        <td>            
+            <fieldset>                                
+                <legend>Pipelines</legend>                                 
+                
+                <div id="PipelineVars"></div>                                           
+                <div id="QueueList"></div>                                       
+                <div id="FileList"></div>
+                
+                <div id="accoridan">
+                    {% for pipeline in pipelines %}
+                    <h>{{pipeline.name}}</h>
+                    <div class="tabs">
+                        <ul>                            
+                            {% if pipeline.name != "CommandTemplates" %}
+                                <li><a href="#tabs-q-{{pipeline.name}}">Tasks</a></li>
+                                <li><a href="#tabs-vars-{{pipeline.name}}">Vars</a></li>
+                                <li><a href="#tabs-action-{{pipeline.name}}">Actions</a></li>
+                                <li><a href="#tabs-files-{{pipeline.name}}">Files</a></li>
+                            {% else %}
+                                <li><a href="#tabs-q-{{pipeline.name}}">Templates</a></li>
+                            {% endif %}
+                        </ul>
+                        <div id="tabs-q-{{pipeline.name}}"></div>
+                        {% if pipeline.name != "CommandTemplates" %}
+                        <div id="tabs-vars-{{pipeline.name}}"></div>
+                        <div id="tabs-action-{{pipeline.name}}">
+                            <table class="hovertable">
+                                <th colspan="3">Pipeline Actions</th>
+                                <tr>
+                                    <td align='center'><a href='' class="deletepipeline" pipelinename="{{pipeline.name}}"><img src="/laravel/public/img/delete.jpg" alt="delete" /></a></td>
+                                    <td align='center'><a href='' class="clearpipeline" pipelinename="{{pipeline.name}}">clear</a></td>
+                                    <td align='center'><a href='/laravel/public/hpc/pipeline/{{pipeline.name}}'>view</a></td>
+                                </tr>
+                            </table>
+                        </div>                        
+                        <div id="tabs-files-{{pipeline.name}}"></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <br/>                
+                <form action="" method="post" accept-charset="utf-8">
+                    <table>
+                        <tr>
+                            <td colspan='4'>
+                                <input type="text" id="pipeline" value=""  />
+                                <input type="submit" class="createpipeline" name="add" value="Add Pipeline"  />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                
+            </fieldset>
+            {#
+            <fieldset><legend>Templated Commands</legend>
+            <div id="TemplateCommands">...</div>
+            </fieldset> 
+            #}  
+            <fieldset><legend>Global Variables</legend>
+            <div id="GlobalVars">...</div>
+            </fieldset>                                                
+            
+            <fieldset><legend>New Files</legend>
+            <div id="NewFiles">...</div>
+            </fieldset>
+                
+        </td>            
+        <td>
+            <fieldset id="QueueEditBox" style="display: none;"><legend>Task Edit</legend>
+                <div id="QueueEdit">...</div>                
+            </fieldset>
+        </td>            
+        <td>
+            <fieldset><legend>Node List [<a href="" onClick="Editor.getNodeList();return false;">refresh</a>]</legend>                  
+                <div id="NodeList">...</div>                
+            </fieldset>
+        </td>  
+        <td>
+            <fieldset id="FileLogBox" style="display: none;"><legend>File Log</legend>
+                <div id="FileLog">...</div>                
+            </fieldset>
+        </td>        
+    </tr>
+</table>
+
+
+
+
+{% endblock %}

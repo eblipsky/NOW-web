@@ -1,0 +1,29 @@
+{% extends "base" %}
+
+{% block include %}
+    <script type='text/javascript' src='/laravel/public/jsPlumb/js/jquery.jsPlumb-1.4.1-all-min.js'></script>
+    
+    <style>
+        .component {opacity:0.8;filter:alpha(opacity=80);background-color:white;color:black;}
+        .window{border:2px solid #346789;width:15em; height:8em;border-radius:0.5em;}
+    </style>
+{% endblock %}
+    
+{% block body %}
+    <table class="hovertable">
+        <tr>
+            <th colspan="2">legend</th>
+        </tr>
+        <tr>
+            <td><div style="float: left;color: #00FF00">green:&nbsp;</div></td>   
+            <td>out path</td>
+        </tr>
+        <tr>
+            <td><div style="float: left;color: #FF0000">red:&nbsp;</div></td>   
+            <td>error path</td>
+        </tr>
+    </table>
+    {% autoescape false %}
+        {{view}}
+    {% endautoescape %}
+{% endblock %}

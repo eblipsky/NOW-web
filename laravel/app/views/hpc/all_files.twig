@@ -1,0 +1,18 @@
+{% extends "base" %}
+
+{% block body %}
+
+<table class='hovertable'>
+    <th>Name</th>
+    <th>Path</th>
+    <th>inProcess</th>
+    {% for fq in files %}
+    <tr>
+        <td>{{fq.name}}</td>
+        <td>{{fq.fullname}}</td>
+        <td>{% if fq.inProcess %} <div style="color: red">Ture</div> {% else %} <div style="color: red">False</div> {% endif %}</td>
+    </tr>        
+    {% endfor %}
+</table>
+
+{% endblock %}

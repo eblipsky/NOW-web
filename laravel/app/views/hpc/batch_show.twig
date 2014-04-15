@@ -1,0 +1,17 @@
+
+<table class='hovertable'>
+    <tr>
+        <th>Name</th>
+        <th>Queue</th>
+        <th>Node</th>
+        <th>Status</th>            
+    </tr>   
+    {% for file in batch.files %}    
+    <tr>
+        <td><a href="get file log">{{file.name}}</a></td>
+        <td>{{file.queue}}</td>
+        <td>{{file.node}}</td>
+        <td>{{file.status}}</td>
+    </tr>        
+    {% endfor %}
+</table>

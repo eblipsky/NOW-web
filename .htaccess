@@ -1,0 +1,4 @@
+RewriteEngine on
+
+RewriteCond $1 !^(trac|robots\.txt)
+RewriteRule ^(.*)$ /laravel/public/index.php/$1 [L]

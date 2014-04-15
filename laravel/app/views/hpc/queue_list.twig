@@ -1,0 +1,67 @@
+{% if queues[0].pipeline.name != "CommandTemplates" %}
+[<a href="" onClick="Editor.getQueueList();return false;">refresh</a>]
+{% endif %}
+<table width='300px' class="hovertable">
+    <tr>        
+        {% if queues[0].pipeline.name != "CommandTemplates" %}
+            <th>Task Name</th>
+            <th>Waiting</th>
+            <th>Active</th>
+        {% else %}
+            <th>Template Name</th>
+        {% endif %}
+        <th>Delete</th>
+    </tr>
+
+    {% for queue in queues %}
+    
+    {% if queue.pipeline.name == "CommandTemplates" and queue.name == "start" %}
+    {% elseif queue.pipeline.name == "CommandTemplates" and queue.name == "done" %}
+    {% elseif queue.pipeline.name == "CommandTemplates" and queue.name == "error" %}
+    {% elseif queue.pipeline.name == "CommandTemplates" and queue.name == "None" %}
+    {% else %}
+    <tr>
+        <td>
+            <a class="queue" href =''                 
+                {% if not queue.active and queue.name != "None" %} 
+                    style="color: darkorange" 
+                {% endif %}
+            >{{queue.name}}</a>
+        </td>
+        {% if queue.pipeline.name != "CommandTemplates" %}
+        <td align='right'>            
+            <div 
+                {% if queue.name == "error" and queue.count > 0 %}
+                    style="color: red"
+                {% elseif queue.name == "done" %}
+                    style="color: darkgreen"
+                {% endif %}
+            >{{queue.count}}</div>            
+        </td>
+        <td align='right'>
+            {{queue.active_count}}
+        </td>
+        {% endif %}
+        <td align='center'>
+            {% if queue.name != "start" and queue.name != "error" and queue.name != "None" and queue.name != "done" %}
+            <a class="deletequeue" queuename="{{queue.name}}" href=""><img src="/laravel/public/img/delete.jpg" alt="delete" /></a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endif %}
+    
+    {% endfor %}
+    
+    <form action="" method="post" accept-charset="utf-8">
+        <tr>
+            <td colspan='4'>
+                <input type="text" id="queue" value=""  />
+                {% if queues[0].pipeline.name != "CommandTemplates" %}
+                    <input type="submit" class="createqueue" name="add" value="Add Queue"  />
+                {% else %}
+                    <input type="submit" class="createqueue" name="add" value="Add Template"  />
+                {% endif %}
+            </td>
+        </tr>
+    </form>
+</table>

@@ -1,0 +1,53 @@
+{% extends "base" %}
+
+{% block body %}
+
+<table>
+    <tr valign='top'>
+        <td width='50%'>
+            
+            <fieldset>
+                <legend>SIG Parse</legend>
+                <form action="/sig" method="post">
+                <input type="input" name="sig" value="{{sig}}"/>
+                <input type="submit" name="submit"/>
+                </form>
+            </fieldset>
+                
+            <fieldset>
+                <legend>Result</legend>
+                {% for line in result %}
+                    {{line}}<br/>
+                {% endfor %}                
+            </fieldset>
+            
+        </td>
+        <td>
+            <fieldset>
+                <legend>Info</legend>
+                Sig = AsDirected | [Use] ( Amount [Units] | Period | Thing | Route | K_FOR | PARENS | op | Other | AsNeeded )+ [OverTheCounter]
+                </br></br>
+                Units - ex ML</br>
+                Amount - captures amounts</br>
+                op - capturse things like - plus, each, times, every, or</br>
+                Period - things like weeks, days, hours, times a day</br>
+                Use - use, inhale, take</br>
+                AsDirected - just what it says</br>
+                OverTheCounter - just what it says</br>
+                AsNeeded - just what it says</br>
+                Thing - pill, tablet, tab, drop, spray</br>
+                Route - oral, inhale, eye</br>
+                Other - things we generally ignore</br>
+                PARENS - special things we ignore</br>
+                K_FOR - other stuff that tends to get ignored</br>
+            </fieldset>
+        </td>
+    </tr>
+</table>
+
+{% endblock %}
+    
+
+
+
+
