@@ -3,9 +3,10 @@ NOW-web
 
 Web managment client for NOW. This is just a full site dump. Future plans are to make this a package so that it can be added into Laravel.
 
-If you already have a Laravel site up, just copy the MVC components into your existing install and add in the routes.
-
 ## Install
+You can clone this whole site and place it under apache. Or, if you already have a site up, just copy the MVC components into your existing install and add in the routes.
+
+## Basic Laravel Install
 1. Install the Laravel framework. This is a breif process for a more detailed install refer to http://laravel.com/
 ```
 cd to /var/www/html
