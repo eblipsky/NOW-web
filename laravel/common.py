@@ -8,7 +8,7 @@ import redis
 from subprocess import Popen
 
 # this is user set
-BASE_DIR = '/fs-research01/tromp'
+BASE_DIR = '/opt/NOW'
 
 #REF_GENOME = 'hg19.fa'
 #REF_VCF = 'hg19.dbsnp.vcf'
@@ -21,7 +21,7 @@ NODE_IDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
 #NODE_IDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 
 NODE_BASE_NAME = 'hpcdarwinnode'
-REDIS_HOST = 'hpcdarwin'
+REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
 

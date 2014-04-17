@@ -2,7 +2,7 @@
 
 class Settings {
     
-    const COUCHDB_HOST = "http://localhost:9998";
+    const COUCHDB_HOST = "http://localhost:5984";
     const COUCHDB_DB = "pipeline";
     
     const REDIS_HOST = "localhost";
