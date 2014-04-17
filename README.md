@@ -29,3 +29,4 @@ What to check if things are not working:
 1. check selinux types
 2. apache allow overrides 
 3. .htaccess files are enabled
+4. setsebool -P httpd_can_network_connect 1
