@@ -8,11 +8,11 @@ class TestController extends BaseController {
             
             $client = new couchClient (Settings::COUCHDB_HOST,  Settings::COUCHDB_DB);                        
             
-            $log = $client->asArray()->getDoc($logid);
-            $attachment = key($log['_attachments']);           
+            $log = $client->asArray()->getDoc($logid);            
+            //$attachment = key($log['_attachments']);           
                         
-            $url = Settings::COUCHDB_HOST."/".Settings::COUCHDB_DB."/".$logid."/".$attachment;            
-            $this->data['info'] = $attachment;
+            $url = Settings::COUCHDB_HOST."/".Settings::COUCHDB_DB."/".$logid."/logfile";
+            //$this->data['info'] = $attachment;
             
             $str = nl2br(file_get_contents($url));
             $str = str_replace("<br />", "<hr>", $str);                        

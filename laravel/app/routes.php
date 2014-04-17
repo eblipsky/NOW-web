@@ -14,7 +14,8 @@
 Route::get('/', 'HomeController@index');
 
 Route::get('hpc/test', 'TestController@index');
-Route::get('hpc/log/{logid}', 'TestController@log');
+
+Route::get('hpc/log/{logid}', 'LogController@index');
 
 Route::get('hpc/batches', 'HPCBatchController@index');
 Route::get('hpc/batches/create', 'HPCBatchController@create');

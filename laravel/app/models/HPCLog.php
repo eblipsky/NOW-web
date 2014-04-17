@@ -20,25 +20,36 @@ class HPCLog {
     
     function log_entries() {                               
         
-        //$client = new couchClient (Settings::COUCHDB_HOST,  Settings::COUCHDB_DB);
-        //$opts = array ( "include_docs" => False, "descending" => false, "key"=> $this->fq );
-        //$logs = $client->setQueryParameters($opts)->getView('logs','all')->rows;                           
-                
-        $log = R::connection()->get('fq_time_'.$this->fq);        
-        $this->json = $log;
+        $client = new couchClient (Settings::COUCHDB_HOST,  Settings::COUCHDB_DB);
+        $opts = array ( "include_docs" => False, "descending" => false, "key"=> $this->fq );
+        $logs = $client->setQueryParameters($opts)->getView('logs','all')->rows;                           
         
-        $entries = json_decode($this->json);       
-        
-        if ($entries == '') {
+        if (count($logs) == 0) {
             return "";
         }
         
-        $logs = array();
-        foreach ( $entries as $j) {
-            $logs[] = new HPCLogEntry($j);
+        $all = array();
+        foreach ( $logs as $log) {
+            $all[] = new HPCLogEntry($log);
         }
         
-        return $logs;        
+        return $all;
+        
+//        $log = R::connection()->get('fq_time_'.$this->fq);        
+//        $this->json = $log;
+//        
+//        $entries = json_decode($this->json);       
+//        
+//        if ($entries == '') {
+//            return "";
+//        }
+//        
+//        $logs = array();
+//        foreach ( $entries as $j) {
+//            $logs[] = new HPCLogEntry($j);
+//        }
+//        
+//        return $logs;        
         
     }
     

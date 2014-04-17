@@ -2,22 +2,22 @@
 
 class HPCLogEntry {
     
-    private $json = null;
+    private $couchLog = null;
 
-    function __construct($json) {
-        $this->json = $json;        
+    function __construct($couchLog) {        
+        $this->couchLog = $couchLog;         
     }
     
     function stage() {
-        return $this->json->stage;
+        return $this->couchLog->value->stage;
     }
 
     function cmd() {
         
-        $cmd = "";
+        $cmd = "";    
         
-        if (isset($this->json->cmd)) {
-            $cmd = $this->json->cmd;
+        if (isset($this->couchLog->value->cmd)) {
+            $cmd = $this->couchLog->value->cmd;
         } else {
             $cmd = "not captured";
         }
@@ -30,27 +30,29 @@ class HPCLogEntry {
     
     function logurl() {
                        
-        //ToDo: once this is mapped to couch we will have a log ID                
-        //$url = "/hpc/log/".$this->json->logid;        
-        $url = "/hpc/log/777074f7375c3b9fecff988e980032af";
-        
+        //ToDo: no link if attaachment doesnt exist        
+        $url = "/hpc/log/".$this->couchLog->id;
         return $url;
         
     }
     
     function node() {
-        return $this->json->node;
+        //return $this->json->node;
+        return $this->couchLog->value->node;
     }    
     
     function start() {
-        return $this->json->start;
+        //return $this->json->start;
+        return $this->couchLog->value->start;
     }
     
     function end() {
-        return $this->json->end;
+        //return $this->json->end;
+        return $this->couchLog->value->end;
     }
     
     function total() {
-        return $this->json->total;
+        //return $this->json->total;
+        return $this->couchLog->value->total;
     }
 }
