@@ -39,7 +39,7 @@ class HPCQueue implements Countable {
         Cache::forget($pipeline.'_'.$queue);
         R::connection()->sadd($pipeline . "_queue", urldecode($queue));
         R::connection()->set($pipeline . "_queue_out_".urldecode($queue), 'None');
-        R::connection()->set($pipeline . "_queue_err_".urldecode($queue), 'None');
+        R::connection()->set($pipeline . "_queue_err_".urldecode($queue), 'error');
         R::connection()->set($pipeline . "_queue_files_".urldecode($queue), 'MAX_CPU');
         R::connection()->set($pipeline . "_queue_valid_".urldecode($queue), 'check_default');
         
