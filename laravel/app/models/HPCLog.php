@@ -21,7 +21,7 @@ class HPCLog {
     function log_entries() {                               
         
         $client = new couchClient (Settings::COUCHDB_HOST,  Settings::COUCHDB_DB);
-        $opts = array ( "include_docs" => False, "descending" => false, "keys"=> $this->fq );
+        $opts = array ( "include_docs" => False, "descending" => false, "startkey"=> array($this->fq), "endkey"=> array($this->fq, array()) );
         $logs = $client->setQueryParameters($opts)->getView('logs','all')->rows;                           
         
         if (count($logs) == 0) {
