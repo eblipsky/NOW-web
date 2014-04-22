@@ -72,7 +72,7 @@ class HPCQueueCDB implements Countable {
         $doc->name = $queue;
         $doc->active = False;
         $doc->nextq = 'None';
-        $doc->errq = 'None';
+        $doc->errq = 'error';
         $doc->filecnt = 'MAX_CPU';
         $doc->validchk = 'check_default';
         $doc->pipeline = $id;                
