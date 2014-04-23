@@ -152,7 +152,7 @@ $(function() {
     });
 
     $(document).on('click','#selectall', function() {
-        $('.selectedId').attr('checked', $(this).is(":checked"));
+        $('.selectedId').prop('checked', $(this).is(":checked"));
     });
 
     $(document).on('click','#filemoveright', function() {
