@@ -12,7 +12,11 @@
         {% endif %}
         <th>Delete</th>
     </tr>
-
+    
+    {% set waitingTotal = 0 %}
+    {% set activeTotal = 0 %}
+    {% set total = 0 %}
+    
     {% for queue in queues %}
     
     {% if queue.pipeline.name == "CommandTemplates" and queue.name == "start" %}
@@ -20,6 +24,10 @@
     {% elseif queue.pipeline.name == "CommandTemplates" and queue.name == "error" %}
     {% elseif queue.pipeline.name == "CommandTemplates" and queue.name == "None" %}
     {% else %}
+    
+    {% set waitingTotal = waitingTotal + queue.count %}
+    {% set activeTotal = activeTotal + queue.active_count %}  
+    
     <tr>
         <td>
             <a class="queue" href =''                 
@@ -51,7 +59,8 @@
     {% endif %}
     
     {% endfor %}
-    
+    {% set total = waitingTotal + activeTotal %}
+    <tr><td>Totals</td><td align='right'>{{waitingTotal}}</td><td align='right'>{{activeTotal}}</td><td align='right'>{{total}}</td></tr>
     <form action="" method="post" accept-charset="utf-8">
         <tr>
             <td colspan='4'>
