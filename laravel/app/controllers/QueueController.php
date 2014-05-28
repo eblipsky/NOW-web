@@ -47,6 +47,7 @@ class QueueController extends \BaseController {
                         Input::get('queue_err'), 
                         Input::get('valid_check'), 
                         Input::get('queue_template'),
+			trim(Input::get('version_cmd')),
                         trim(Input::get('queue_cmd')),
                         Input::get('queue_cmdtype'), 
                         Input::get('queue_files_cnt'),

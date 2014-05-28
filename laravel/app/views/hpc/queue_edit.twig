@@ -112,6 +112,20 @@
                 <input type="text" name="queue_desc" value="{{queue.description}}" style="width:99%" />
             </td>
         </tr>
+	<tr>
+            <td>
+                <label for="version_cmd">Version Command</label>
+            </td>
+            <td>
+                <div id="cmd">
+                    <img src="/laravel/public/img/help.png"/>
+                    <div class="cmdtext">Command that can be used to log the version from the following command</div>
+                </div>
+            </td>
+            <td>
+                <input type="text" name="version_cmd" value="{{queue.cmd_ver}}" style="width:98%"/>              
+            </td>
+        </tr>
         <tr>
             <td>
                 <label for="queue_cmd">Command</label>                 

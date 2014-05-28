@@ -1,4 +1,5 @@
 # Ignore everything in this directory because its all tmp stuff!
 *
 # Except this file
+!meta
 !.gitignore
