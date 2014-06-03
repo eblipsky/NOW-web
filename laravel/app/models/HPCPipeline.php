@@ -95,21 +95,29 @@ class HPCPipeline {
     }
     
     public function startFiles($fqs) {     
-        //ToDo: have this check for in-process files (HPCNode::files()) ... or not start while nodes are working?
-        foreach ($fqs as $fq) {                   
-            $found = false;
-            foreach($this->queues() as $queue) {                
-                foreach($queue->files() as $file) {
-                    if ($fq == $file->name()) {
-                        $found = true;
-                    }
-                }
-            }
+        
+        $files = array();
+        $queues = $this->queues();
+        foreach ($queues as $queue) {
+            $files = array_merge( $files, $queue->files() );
+        }               
+        
+        foreach ($fqs as $fq) {      
             
-            if (!$found) {
-                R::connection()->rpush($this->name . '_queue_start', $fq);
+            $queued = false;
+            $inprocess = false;
+            
+            $file = new HPCFile($fq);
+            $queued = in_array($file, $files);
+            
+            $file = new HPCFile($fq);
+            $inprocess = $file->inProcess();           
+            
+            if ( !$queued && !$inprocess ) {                
+                R::connection()->rpush($this->name . '_queue_start', $fq);                
             }
-        }        
+        }    
+        
     }
     
     //ToDo: this is poor! need to seperate out functions and get the html over into the view
