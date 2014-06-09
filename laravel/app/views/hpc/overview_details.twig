@@ -46,12 +46,16 @@
         <td style="text-align: center;background-color: {{color}};color: {{fgcolor}}">{{percents[key]}}%</td>        
         {% for queue in queues %}
             {% set cnt = 0 %}
+            {% set ip_cnt = 0 %}
             {% for file in group_files %}       
                 {% if file.queue == queue and file.base == key %}
-                    {% set cnt = cnt + 1 %}                   
+                    {% set cnt = cnt + 1 %}
+                    {% if file.inprocess %}
+                        {% set ip_cnt = ip_cnt + 1 %}                   
+                    {% endif %}
                 {% endif %}
             {% endfor %}
-            <td style="text-align: center;{% if cnt > 0 %}background-color: #e2e2e2{% endif %}">{{cnt}}</td>
+            <td style="text-align: center;{% if cnt > 0 %}background-color: #e2e2e2{% endif %}">{%if ip_cnt>0%}{{ip_cnt}}/{%endif%}{{cnt}}</td>
         {% endfor %}
     </tr>
     {% endfor %}
