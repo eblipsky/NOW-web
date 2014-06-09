@@ -55,7 +55,7 @@
                     {% endif %}
                 {% endif %}
             {% endfor %}
-            <td style="text-align: center;{% if cnt > 0 %}background-color: #e2e2e2{% endif %}">{%if ip_cnt>0%}{{ip_cnt}}/{%endif%}{{cnt}}</td>
+            <td style="text-align: center;{% if cnt > 0 %}background-color: #e2e2e2{%else%}color:gray{% endif %}">{%if ip_cnt>0%}{{ip_cnt}}/{%endif%}{{cnt}}</td>
         {% endfor %}
     </tr>
     {% endfor %}
