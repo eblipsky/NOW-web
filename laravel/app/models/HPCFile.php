@@ -130,6 +130,12 @@ class HPCFile {
             return 5;
         }
     } 
+    public function priority_name() {        
+        $priority = $this->priority();
+        if ($priority == 1) return "High";
+        if ($priority == 5) return "Normal";
+        if ($priority == 10) return "Low";
+    } 
     
     public function node() {        
         return R::connection()->hget("finfo_".$this->fq,'node');
