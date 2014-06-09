@@ -1,0 +1,64 @@
+{% extends "base" %}
+
+{% block include %}
+<script src="/laravel/public/js/overview.js"></script>
+<script>
+    $(function() {
+        $('#accoridan').accordion({
+            collapsible: true, 
+            active: false, 
+            animate: false,
+            heightStyle: "content",
+            beforeActivate: function( event, ui ) 
+                { 
+                    Overview.pipeline = ui.newHeader.text();
+                    Overview.getOverview();
+                    if (ui.newHeader.text() == "") {
+                        //closing
+                        Overview.pipeline = "";                        
+                        Overview.clearOverview();
+                    } else {
+                        Overview.pipeline = ui.newHeader.text();                         
+                        Overview.getOverview();
+                                                                        
+                        $( "#pipelineOverview" ).appendTo( "#pipelineOverview-"+Overview.pipeline );
+                        $( "#pipelineOverview" ).show();
+                                              
+                    }
+                }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+
+<div id="pipelineOverview"></div>
+
+<div style="z-index: 100;position: fixed;right: 100px;bottom: 100px;background-color: #ffffff;border: 1px solid #D0D0D0">
+    <table>
+        <tr>
+            <th>Color</th>
+            <th>Meaning</th>
+        </tr>
+        <tr><td style="background-color: #662900"></td><td>&nbsp;100%</td></tr>
+        <tr><td style="background-color: #b24700"></td><td>&nbsp;> 80%</td></tr>
+        <tr><td style="background-color: #ff6600"></td><td>&nbsp;> 60%</td></tr>
+        <tr><td style="background-color: #ff944d"></td><td>&nbsp;> 40%</td></tr>
+        <tr><td style="background-color: #ffc299"></td><td>&nbsp;> 20%</td></tr>
+        <tr><td style="background-color: #ffd1b2"></td><td>&nbsp;>= 0%</td></tr>
+        <tr><td style="background-color: #ff1919"></td><td>&nbsp;errored</td></tr>
+
+    </table>   
+</div>
+
+<div id="accoridan">        
+    {% for pipeline in pipelines %}            
+        <h>{{pipeline.name}}</h>
+        <div>
+            <div id="pipelineOverview-{{pipeline.name}}"></div>            
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

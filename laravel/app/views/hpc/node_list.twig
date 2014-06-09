@@ -34,12 +34,14 @@
                 </tr>
             </table>
         </td>        
-        <td style='white-space: normal;'>
-            <ul>
-            {% for file in node.files %}
-                    <li><a href="" id="showfilelog" fq="{{file}}">{{file}}</a></li>
-            {% endfor %}
-            </ul>
+        <td style='white-space: normal;'>            
+            <table>                
+                {% for file in node.files %}
+                <tr>
+                    <td><a href="" id="showfilelog" fq="{{file}}">{{file}}</a></td>
+                </tr>
+                {% endfor %}            
+            </table>
         </td>
     </tr>    
 

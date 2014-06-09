@@ -217,13 +217,24 @@
             }).done(function(retData) {                  
             });   
         },        
+        setPriority: function(priority,fqs) {  
+            $("#CurrentFiles").html("<img src='/laravel/public/img/loader.gif'>");              
+            $.ajax({
+                type:"POST",                  
+                url: '/laravel/public/hpc/files/priority',
+                data: { priority: priority, fqs: fqs }
+            }).done(function(retData) {                  
+                //alert(retData);
+            });   
+        },
         startFiles: function(fqs) {   
             $.ajax({
                 type:"POST",
                 async: false,
                 url: '/laravel/public/hpc/startfiles',
                 data: { pipeline: this.pipeline, fqs: fqs }
-            }).done(function(retData) {                    
+            }).done(function(retData) {   
+                //alert(retData);
             }).error(function() {                                
             });  
         }

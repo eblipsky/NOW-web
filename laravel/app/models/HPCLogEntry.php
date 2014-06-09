@@ -11,16 +11,15 @@ class HPCLogEntry {
     function stage() {
         return $this->couchLog->value->stage;
     }
-
+    
     function cmdver() {
-
+        
         if (isset($this->couchLog->value->cmdver)) {
             return $this->couchLog->value->cmdver;
         } else {
-            return "not captured";
+            return "";
         }
-
-    }
+    } 
 
     function cmd() {
         

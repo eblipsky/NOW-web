@@ -55,7 +55,9 @@ $(document).on("click","a.deletefilevar",function(e) {
 
 <table style='float:left' class='hovertable'>
     <th colspan='6'>
-        <input type="checkbox" name="move[]" value="{{fq.name}}" class='selectedId' />{{fq.name}}
+        <input type="checkbox" name="move[]" value="{{fq.name}}" class='selectedId' style="float:left"/>
+        {{fq.name}}
+        <div style="float:right">Priority:{{fq.priority}}</div>
     </th>
     <tr>
         <td colspan='6'>{{fq.fullname}}</td>
@@ -90,16 +92,17 @@ $(document).on("click","a.deletefilevar",function(e) {
                     <td style="text-align: center;">     
                         
                         <a href="{{stage.logurl}}" target="_new"><img src="/laravel/public/img/log.gif"/></a>                       
-                                                
+                        
                         <div id="cmd">
                             <img src="/laravel/public/img/cmd.gif"/>
                             <div class="cmdtext">{{stage.cmdver}}</div>
-                        </div>            
-
+                        </div> 
+                        
                         <div id="cmd">
                             <img src="/laravel/public/img/cmd.gif"/>
                             <div class="cmdtext">{{stage.cmd|raw}}</div>
                         </div>            
+                        
                     </td>
                     <td style="text-align: center">{{stage.node}}</td>
                 </tr>

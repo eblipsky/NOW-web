@@ -11,11 +11,7 @@
             $("#queue_template").attr('disabled',true);
         }
     });
-    
-    //alert("::"+"{{queue.cmdtype}}");
-    
-    //$("#queue_cmd").autogrow();
-    
+        
     if("{{queue.cmdtype}}"=='template') {
         $("#queue_cmd").attr('disabled',true);
         $("#queue_cmd").attr('rows','1');                
@@ -112,9 +108,9 @@
                 <input type="text" name="queue_desc" value="{{queue.description}}" style="width:99%" />
             </td>
         </tr>
-	<tr>
+        <tr>
             <td>
-                <label for="version_cmd">Version Command</label>
+                <label for="version_cmd">Version Command</label> 
             </td>
             <td>
                 <div id="cmd">
@@ -123,7 +119,7 @@
                 </div>
             </td>
             <td>
-                <input type="text" name="version_cmd" value="{{queue.cmd_ver}}" style="width:98%"/>              
+                <input type="text" name="version_cmd" value="{{queue.cmd_ver}}" style="width:98%"/>                
             </td>
         </tr>
         <tr>
@@ -223,19 +219,37 @@
 
         <fieldset><legend>Current Files</legend>
 
-            <input type='checkbox' name='selectall' id='selectall'>Select all</input>            
+            <input type='checkbox' name='selectall' id='selectall'>Select all</input>
+            </br>
             <form action="" id="movefilesform" method="post" accept-charset="utf-8">
-
-                <select id="toqueue">                       
-                    {% for q in queues %}
-                    <option value="{{q}}">{{q}}</option>
-                    {% endfor %}                                
-                </select>       
-                <input type="submit" class="movefiles" name="move" value="move"  />            
-                <br />
+                <table>
+                    <tr>
+                        <td>
+                            <select id="toqueue">                       
+                                {% for q in queues %}
+                                <option value="{{q}}">{{q}}</option>
+                                {% endfor %}                                
+                            </select>   
+                        </td>
+                        <td>
+                            <input type="submit" class="movefiles" name="move" value="move"  />      
+                        </td>
+                    <tr>
+                        <td>
+                            <select id="priority">                                           
+                                <option value="10">10</option>
+                                <option value="5">5</option>
+                                <option value="1">1</option>
+                            </select>   
+                        </td>
+                        <td>
+                            <input type="submit" class="setpriority" name="set" value="set"  /> * 1 is highest
+                        </td>
+                    </tr>
+                </table>
                 <div id="CurrentFiles">    
                     {% for fq in files %}
-	                {% include "hpc/file_list" %}
+                        {% include "hpc/file_list" %}                        
                     {% endfor %}
                 </div>            
             </form>        

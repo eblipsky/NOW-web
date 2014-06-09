@@ -35,4 +35,17 @@ class FilesController extends \BaseController {
         return View::make('hpc/file_info',$this->data);
         
     }
+    
+    public function setPriority() {     
+                
+        $fqs = Input::get('fqs');
+        $priority = Input::get('priority');                
+        
+        foreach ($fqs as $key) {
+            $fq = new HPCFile($key);
+            $fq->setPriority($priority);           
+        }
+        
+        return "";
+    }
 }

@@ -52,6 +52,22 @@ class HPCPipeline {
         R::connection()->srem("pipeline", $pipeline);
     }
     
+    public static function flow($pipeline) {
+
+        $queues[] = new HPCQueue($pipeline, "start");
+
+        $checking = true;
+        while ($checking) {                
+            $last_queue = end($queues);                
+            if ($last_queue->name() == "done") {               
+               $checking = false;                       
+            }               
+            $queues[] = new HPCQueue($pipeline, $last_queue->queue_out());                      
+        }
+
+        return $queues;
+    }
+
     public function queues() {      
         $queues = array();
         $sorted = R::connection()->smembers($this->name . "_queue");
@@ -116,8 +132,9 @@ class HPCPipeline {
             if ( !$queued && !$inprocess ) {                
                 R::connection()->rpush($this->name . '_queue_start', $fq);                
             }
-        }    
-        
+                
+        }
+                   
     }
     
     //ToDo: this is poor! need to seperate out functions and get the html over into the view

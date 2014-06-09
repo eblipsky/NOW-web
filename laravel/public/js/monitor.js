@@ -92,6 +92,20 @@ $(function() {
 
     });
 
+    // set priority on files
+    $(document).on("click", "input.setpriority", function(e){
+        e.preventDefault(); 
+
+        var checkValues = $("input[name='move\[\]']:checked").map(function() {
+            return $(this).val();
+        }).get();                   
+
+        Editor.setPriority($("#priority").val(),checkValues);
+        Editor.getQueueList();
+        Editor.getQueueEdit();
+
+    });
+    
     // start files
     $(document).on("click", "input.startfiles", function(e){
         e.preventDefault();                                                        

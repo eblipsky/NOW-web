@@ -26,6 +26,7 @@ class HPCFile {
         foreach ( $file_names as $file ) {
             $files[] = new HPCFile($file);
         }        
+        usort($files, array("Compare", "cmp_priority"));
         return $files;
     }
     
@@ -106,31 +107,37 @@ class HPCFile {
         //return $this->info['dirname'];
     }
     
-    public function queue() {
-        //ToDo: this will return the files current queue
+    public function queue() {        
         return R::connection()->hget("finfo_".$this->fq,'queue');
     }    
 
-    public function pipeline() {
-        //ToDo: this will return the files current queue
+    public function pipeline() {        
         return R::connection()->hget("finfo_".$this->fq,'pipeline');
     }  
     
-    public function status() {
-        //ToDo: this will return the files current queue
+    public function status() {        
         return R::connection()->hget("finfo_".$this->fq,'status');
     } 
+
+    public function setPriority($priority) {        
+        return R::connection()->hset("finfo_".$this->fq,'priority',$priority);
+    } 
+    public function priority() {        
+        $priority = R::connection()->hget("finfo_".$this->fq,'priority');
+        if (isset($priority)) {
+            return $priority;
+        } else {
+            return 5;
+        }
+    } 
     
-    public function node() {
-        //ToDo: this will return the node if its being processed
+    public function node() {        
         return R::connection()->hget("finfo_".$this->fq,'node');
     }
     
-    public function stages() {
-        //todo:fix naming, should be log, not stages
+    public function stages() {        
         $log = new HPCLog($this->name());
         return $log->log_entries();
-
     } 
     
 }

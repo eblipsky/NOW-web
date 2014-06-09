@@ -56,7 +56,7 @@ class HPCQueue implements Countable {
         R::connection()->set($this->pipeline->name . "_queue_err_" . $this->name,$err);                
         R::connection()->set($this->pipeline->name . "_queue_valid_" . $this->name,$valid);              
         R::connection()->set($this->pipeline->name . "_queue_template_" . $this->name,$templatecmd);
-	R::connection()->set($this->pipeline->name . "_queue_cmdver_" . $this->name,$cmdver);
+        R::connection()->set($this->pipeline->name . "_queue_cmdver_" . $this->name,$cmdver);
         R::connection()->set($this->pipeline->name . "_queue_cmd_" . $this->name,$cmd);
         R::connection()->set($this->pipeline->name . "_queue_cmdtype_" . $this->name,$cmdtype);        
         R::connection()->set($this->pipeline->name . "_queue_files_" . $this->name,$files);       
@@ -156,9 +156,9 @@ class HPCQueue implements Countable {
     function template_cmd() {      
         return R::connection()->get($this->pipeline->name . "_queue_template_" . $this->name);        
     }
-
-    function cmd_ver() {
-        return R::connection()->get($this->pipeline->name . "_queue_cmdver_" . $this->name);
+    
+    function cmd_ver() {      
+        return R::connection()->get($this->pipeline->name . "_queue_cmdver_" . $this->name);        
     }
     
     function cmd() {      

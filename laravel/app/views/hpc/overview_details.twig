@@ -1,0 +1,59 @@
+<table style='float:left' class='hovertable'>
+    <tr>
+        <th>File</th>
+        <th>Progress</th>
+        <th colspan="{{queues|length}}">Steps</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        {% for queue in queues %}
+            <th style="font-size: 0.7em">{{queue}}</th>
+        {% endfor %}
+    </tr>
+    {% for key,group_files in files %}
+    <tr>
+        <td>{{key}}</td>
+        
+        {% set color = "green" %}
+        {% set fgcolor = "black" %}
+        
+        {% if percents[key] == 100 %}
+            {% set color = "#662900" %}        
+            {% set fgcolor = "#f5f5f5" %}
+        {% elseif percents[key] >= 80 %}
+            {% set color = "#b24700" %}        
+            {% set fgcolor = "#f5f5f5" %}
+        {% elseif percents[key] >= 60 %}
+            {% set color = "#ff6600" %}        
+            {% set fgcolor = "#f5f5f5" %}
+        {% elseif percents[key] >= 40 %}
+            {% set color = "#ff944d" %}        
+            {% set fgcolor = "black" %}
+        {% elseif percents[key] >= 20 %}
+            {% set color = "#ffc299" %}
+            {% set fgcolor = "black" %}
+        {% else %}
+            {% set color = "#ffd1b2" %}
+            {% set fgcolor = "black" %}
+        {% endif %} 
+        
+        {% if errored[key] %}
+            {% set color = "#ff1919" %}
+            {% set fgcolor = "white" %}
+        {% endif %}
+        
+        <td style="text-align: center;background-color: {{color}};color: {{fgcolor}}">{{percents[key]}}%</td>        
+        {% for queue in queues %}
+            {% set cnt = 0 %}
+            {% for file in group_files %}       
+                {% if file.queue == queue and file.base == key %}
+                    {% set cnt = cnt + 1 %}                   
+                {% endif %}
+            {% endfor %}
+            <td style="text-align: center;{% if cnt > 0 %}background-color: #e2e2e2{% endif %}">{{cnt}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+</table>
