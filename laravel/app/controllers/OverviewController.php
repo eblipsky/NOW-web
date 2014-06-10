@@ -103,7 +103,6 @@ class OverviewController extends \BaseController {
                 }                
             }
         }                
-        asort($files);
                 
         $percents = array();
         $cnts = array();
@@ -121,6 +120,8 @@ class OverviewController extends \BaseController {
                 $x[$key] = $file->queue();
             }                
         }                             
+        
+        ksort($files);
         
         foreach ($percents as $key => $value) {
             $percents[$key] = round((($value / 100) / $cnts[$key]) * 100, 0);
