@@ -63,7 +63,8 @@ $(function() {
     //show file log
     $(document).on("click", "a#showfilelog", function(e){
         e.preventDefault();                                        
-        Editor.getFileLog($(this).attr('fq'));
+        Editor.getFileLog($(this).attr('fq'));                
+        $( "#file-dialog-form" ).dialog( "open" );
     }); 
 
     // update a queue

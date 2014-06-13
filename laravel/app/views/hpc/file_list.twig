@@ -1,6 +1,10 @@
 <table style='float:left' class='hovertable'>
     <th >
         <input type="checkbox" name="move[]" value="{{fq.name}}" class='selectedId' />
-        <a id="showfilelog" fq="{{fq.name}}" href="" style="color: rgb(255, 255, 255); background-color:rgb(83, 99, 120); padding: 2px 6px 2px 6px; ">[{{fq.priority_name}}] {{fq.name}}</a>
+        <a id="showfilelog" fq="{{fq.name}}" href="" style="color: rgb(255, 255, 255); background-color:rgb(83, 99, 120); padding: 2px 6px 2px 6px; ">
+            {%if fq.priority == 1%}<div style="display:inline;background-color: #344553 ;color: #ff6262">{{fq.priority_name}}</div> {%endif%}
+            {%if fq.priority == 5%}<div style="display:inline;background-color: #344553 ;color: #00c300">{{fq.priority_name}}</div> {%endif%}
+            {%if fq.priority == 10%}<div style="display:inline;background-color: #344553 ;color: #ffff50">{{fq.priority_name}}</div> {%endif%}
+        {{fq.name}}</a>
     </th>    
 </table>

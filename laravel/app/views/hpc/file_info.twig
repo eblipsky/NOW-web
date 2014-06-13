@@ -54,8 +54,7 @@ $(document).on("click","a.deletefilevar",function(e) {
 {% endblock %}
 
 <table style='float:left' class='hovertable'>
-    <th colspan='6'>
-        <input type="checkbox" name="move[]" value="{{fq.name}}" class='selectedId' style="float:left"/>
+    <th colspan='6'>        
         {{fq.name}}
         <div style="float:right">Priority:{{fq.priority_name}}</div>
     </th>
@@ -73,15 +72,17 @@ $(document).on("click","a.deletefilevar",function(e) {
         <td><a href="" class="deletefilevar" fq="{{fq.name}}" var="{{var.name}}"><img src="/laravel/public/img/delete.jpg" alt="delete" /></a></td>
     </tr>
     {% endfor %}
-    <th colspan='6'>
-        History (last 10 entries)
-    </th>
+    <tr>
+        <th colspan='6'>
+            History
+        </th>
+    </tr>
     <tr>
         <td>Completed Stage</td>        
         <td>Stage Times</td>        
-        <td>Total Stage Time</td>
+        <td colspan="4">Total Stage Time</td>        
     </tr>
-    {% for stage in fq.stages | slice(fq.stages.length-10, fq.stages.length) %}    
+    {% for stage in fq.stages %}    
     <tr>
         <td>
             <table>
@@ -89,16 +90,18 @@ $(document).on("click","a.deletefilevar",function(e) {
                     <td colspan="2">{{stage.stage}}</td>
                 </tr>
                 <tr>
-                    <td style="text-align: center;">     
+                    <td style="text-align: center;width: 100px">
                         
-                        <a href="{{stage.logurl}}" target="_new"><img src="/laravel/public/img/log.gif"/></a>                       
+                        <div style="float: left;padding: 5px">
+                            <a href="{{stage.logurl}}" target="_new"><img src="/laravel/public/img/log.gif"/></a>
+                        </div>
                         
-                        <div id="cmd">
+                        <div style="float: left;padding: 5px" id="cmd">
                             <img src="/laravel/public/img/cmd.gif"/>
                             <div class="cmdtext">{{stage.cmdver}}</div>
-                        </div> 
+                        </div>     
                         
-                        <div id="cmd">
+                        <div style="float: left;padding: 5px" id="cmd">
                             <img src="/laravel/public/img/cmd.gif"/>
                             <div class="cmdtext">{{stage.cmd|raw}}</div>
                         </div>            
@@ -114,7 +117,7 @@ $(document).on("click","a.deletefilevar",function(e) {
                 <tr><td>End:</td><td>{{stage.end}}</td></tr>
             </table>
         </td>
-        <td>            
+        <td colspan="4">            
             <div
                 {% if stage.total == "!!ERROR!!" %}
                     style="color: red"
