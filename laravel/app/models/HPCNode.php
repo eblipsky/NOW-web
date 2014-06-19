@@ -45,8 +45,12 @@ class HPCNode {
     
     function ProcessingQueue() {
         $both = $this->stage();
-        $both = explode('_queue_', $both);
-        return new HPCQueue($both[0], $both[1]);
+        if ( strpos($both, "_queue_") === false ) {
+    	    return "";
+        } else {
+            $both = explode('_queue_', $both);
+            return new HPCQueue($both[0], $both[1]);
+	}
     }    
     
     function start_time() {
