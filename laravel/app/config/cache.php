@@ -84,6 +84,6 @@ return array(
 	|
 	*/
 
-	'prefix' => 'laraveli_cache',
+	'prefix' => 'laravel_cache',
 
 );

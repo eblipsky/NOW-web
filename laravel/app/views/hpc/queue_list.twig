@@ -62,7 +62,7 @@
     
     {% endfor %}
     {% set total = waitingTotal + activeTotal %}    
-    <tr><td>Totals</td><td align='right'>{{waitingTotal}}</td><td align='right'>{{activeTotal}}</td><td align='right'>{{total}} [{{((doneTotal/total)*100)|number_format(0)}}%]</td></tr>
+    <tr><td>Totals</td><td align='right'>{{waitingTotal}}</td><td align='right'>{{activeTotal}}</td><td align='right'>{% if total > 0 %}{{total}} [{{((doneTotal/total)*100)|number_format(0)}}%]{% endif %}</td></tr>
     <form action="" method="post" accept-charset="utf-8">
         <tr>
             <td colspan='4'>
