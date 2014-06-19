@@ -39,11 +39,16 @@ class FilesController extends \BaseController {
     public function setPriority() {     
                 
         $fqs = Input::get('fqs');
-        $priority = Input::get('priority');                
+        $priority = Input::get('priority');                                
         
-        foreach ($fqs as $key) {
-            $fq = new HPCFile($key);
+        if ( gettype($fqs) == "string" ) {
+            $fq = new HPCFile($fqs);
             $fq->setPriority($priority);           
+        } else {
+            foreach ($fqs as $key) {
+                $fq = new HPCFile($key);
+                $fq->setPriority($priority);           
+            }
         }
         
         return "";

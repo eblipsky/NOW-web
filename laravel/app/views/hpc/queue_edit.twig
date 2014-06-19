@@ -30,7 +30,7 @@
 <form action="" id="editqueue" method="post" accept-charset="utf-8">
     <table class='hovertable' style='width:100%;'>
         <tr>
-            <th colspan='3'>{{queue.name}}</th>
+            <th colspan='3' style="font-size: 18px; padding: 10px">{{queue.name}}</th>
         </tr>
         {% if queue.name != "error" and queue.name != "None" and queue.name != "done" %}
         {% if queue.pipeline.name != "CommandTemplates" %}

@@ -7,6 +7,7 @@
             
         },
         getOverview: function() {
+    console.log("getOverview");
             $("#pipelineOverview").html("<img src='/laravel/public/img/loader.gif'>");            
             $.ajax({
                 type:"GET",

@@ -35,7 +35,19 @@ class HPCNode {
            
     function stage() {
         return R::connection()->hget($this->name,'stage'); 
-    }
+    }    
+    
+    function ProcessingPipeline() {
+        $both = $this->stage();
+        $both = explode('_queue_', $both);
+        return new HPCPipeline($both[0]); 
+    }    
+    
+    function ProcessingQueue() {
+        $both = $this->stage();
+        $both = explode('_queue_', $both);
+        return new HPCQueue($both[0], $both[1]);
+    }    
     
     function start_time() {
         return R::connection()->hget($this->name,'start');   

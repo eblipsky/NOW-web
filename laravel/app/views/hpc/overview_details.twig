@@ -1,10 +1,37 @@
-<table style='float:left' class='hovertable'>
+</br>
+<table class="hovertable">
+    <tr>
+        <th>filter</th>
+    </tr>
+    <tr>
+        <td>
+            Filter Text: <input type="text" id="filter" value="100%" /><br>
+        </td>
+    </tr>        
+        <td>
+            Show All Files: <input id="showallfiles" type="checkbox"/>
+        </td>        
+    <tr>
+        <td>
+            <div id="filterlist"></div>     
+        </td>
+    </tr>    
+    <tr>
+        <td>
+            <a id="clearall" href=''>Clear All Filters</a>
+        </td>
+    </tr>
+</table>
+</br>    
+<table id="report" style='float:left' class='hovertable'>
     <tr>
         <th>File</th>
+        <th>Set Priority</th>
         <th>Progress</th>
         <th colspan="{{queues|length}}">Steps</th>
     </tr>
     <tr>
+        <th></th>
         <th></th>
         <th></th>
         {% for queue in queues %}
@@ -12,12 +39,24 @@
         {% endfor %}
     </tr>
     {% for key,group_files in files %}
-    <tr>
-        <td>{{key}}</td>
+    <tr type="base">
         
+        <td>
+        {{key}}            
+        </td>
+        <td>
+            {% set first = 0 %}
+            <select id="overviewpriority" fqs='[{% for f in group_files %}{%if first == 0%}{% set first = 1%}{% else %},{% endif %}"{{f.name}}"{% endfor %}]'>
+                <option>...</option>
+                <option value="1">High</option>
+                <option value="5">Normal</option>
+                <option value="10">Low</option>
+            </select>
+        </td>
+
         {% set color = "green" %}
         {% set fgcolor = "black" %}
-        
+
         {% if percents[key] == 100 %}
             {% set color = "#662900" %}        
             {% set fgcolor = "#f5f5f5" %}
@@ -37,13 +76,13 @@
             {% set color = "#ffd1b2" %}
             {% set fgcolor = "black" %}
         {% endif %} 
-        
+
         {% if errored[key] %}
             {% set color = "#ff1919" %}
             {% set fgcolor = "white" %}
         {% endif %}
-        
-        <td style="text-align: center;background-color: {{color}};color: {{fgcolor}}">{{percents[key]}}%</td>        
+
+        <td style="text-align: center;background-color: {{color}}; color: {{fgcolor}}">{{percents[key]}}%</td>        
         {% for queue in queues %}
             {% set cnt = 0 %}
             {% set ip_cnt = 0 %}
@@ -56,8 +95,119 @@
                 {% endif %}
             {% endfor %}
             <td style="text-align: center;{% if cnt > 0 %}background-color: #e2e2e2{%else%}color:gray{% endif %}">{%if ip_cnt>0%}{{ip_cnt}}/{%endif%}{{cnt}}</td>
+        {% endfor %}        
+    </tr>    
+    {% if (group_files|length) > 1%}
+        {% for file in group_files %}        
+            <tr style="display: none;" basefq="{{file.base}}" type="child">
+                <td style="padding-left: 20px">
+                    <div style="background-color: lightgrey; display: inline">&nbsp;</div>
+                    {{file.name}}
+                </td>
+                <td>
+                    <select id="fqpriority" fq="{{file.name}}">
+                        <option>...</option>
+                        <option value="1" {%if file.priority==1%}selected{%endif%}>High</option>
+                        <option value="5" {%if file.priority==5%}selected{%endif%}>Normal</option>
+                        <option value="10" {%if file.priority==10%}selected{%endif%}>Low</option>
+                    </select>
+                </td>
+                <td>
+                    {{file.queue}}
+                </td>
+            </tr>
         {% endfor %}
-    </tr>
+    {% endif %}
     {% endfor %}
 
 </table>
+
+<script>   
+    
+    $(function() {                           
+    
+        var showAllFiles = false;
+        
+        function addFilter() {                        
+            $("#filterlist").append("<div style='float: left; margin: 5px'><table class='hovertable'><th>"+$("#filter").val()+" <a id='removefilter' filter='"+$("#filter").val()+"' href='removefilter();'><img src='/laravel/public/img/delete.jpg' alt='delete' /></a></th></table></div>")
+        }
+        
+        function showAll() { 
+            if ( showAllFiles ) {
+                $("#report tr").show();            
+            } else {
+                $("#report tr[type='child']").hide(); 
+                $("#report tr[type='base']").show();            
+            }
+        }
+        
+        function runFilter() {   
+            
+            showAll();   
+            
+            var tr = $("#report td").filter(function() {                           
+                        var found = false;
+                        var td = this;
+                        $("#filterlist div a").each(function(){                                       
+                           if ($(td).text().indexOf($(this).attr('filter')) !== -1) {
+                               found = true;                       
+                           }
+                        });                                                         
+                        return found;                        
+                    }).parent();
+
+            tr.hide();
+                        
+            $.each(tr, function(key, value){                                 
+                $('#report tr[basefq="'+value.cells[0].innerText.trim()+'"]').hide();                         
+            });                
+                                   
+        }
+        
+        $("#filter").keyup(function(e) {
+            if (e.keyCode == 13) {
+                addFilter();
+                runFilter();
+            }
+        });
+        
+        $(document).on("mouseup", "#filter", function(e) {
+            $(this).select();
+        });
+        
+        $(document).on("click", "#showallfiles", function(e) {                                    
+            showAllFiles = $("#showallfiles").prop("checked");               
+            runFilter();
+        });
+        
+        $(document).on("click", "a#clearall", function(e){
+            e.preventDefault();                   
+            $("#filterlist div a").each(function(){                                       
+                $(this).closest("div").remove();
+            });  
+            runFilter();
+        });
+        
+        $(document).on("click", "a#removefilter", function(e){
+            e.preventDefault();                   
+            $(this).closest("div").remove();
+            runFilter();
+        });
+    
+        $(document).on("click", "a#show", function(e){
+            e.preventDefault();                   
+            $("#report tr").show();
+        });
+    
+        $(document).on("click", "a#hide", function(e){
+            e.preventDefault();  
+            runFilter();            
+        });
+    
+        addFilter();
+        runFilter();
+    
+    }); 
+    
+    
+</script>

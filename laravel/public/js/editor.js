@@ -225,6 +225,8 @@
                 data: { priority: priority, fqs: fqs }
             }).done(function(retData) {                  
                 //alert(retData);
+            }).error(function(e) {                
+                //alert(JSON.stringify(e));
             });   
         },
         startFiles: function(fqs) {   

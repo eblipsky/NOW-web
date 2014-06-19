@@ -2,8 +2,9 @@ $(function() {
 
     //load queue edit form
     $(document).on("click", "a.queue", function(e){
-        e.preventDefault();   
-        Editor.queue = $(this).text();
+        e.preventDefault();                   
+        Editor.pipeline = $(this).attr('pname');
+        Editor.queue = $(this).attr('qname');
         Editor.getQueueEdit();
     });
 
@@ -100,11 +101,22 @@ $(function() {
         var checkValues = $("input[name='move\[\]']:checked").map(function() {
             return $(this).val();
         }).get();                   
-
+ 
         Editor.setPriority($("#priority").val(),checkValues);
         Editor.getQueueList();
         Editor.getQueueEdit();
 
+    });
+    $(document).on("click", "select#overviewpriority", function(e){
+        e.preventDefault(); 
+        if ($(this).val() !== "...") {          
+            var checkValues = JSON.parse($(this).attr("fqs"));             
+            Editor.setPriority($(this).val(), checkValues);                    
+        }
+    });  
+    $(document).on("change", "select#fqpriority", function(e){
+        e.preventDefault(); 
+        Editor.setPriority( $(this).val(), $(this).attr("fq") );
     });
     
     // start files
@@ -135,7 +147,7 @@ $(function() {
             animate: false,
             heightStyle: "content",
             beforeActivate: function( event, ui ) 
-                    { 
+                    {                             
                         if (ui.newHeader.text() == "") {
                             //closing
                             Editor.pipeline = "";

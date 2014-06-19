@@ -53,10 +53,15 @@ $(document).on("click","a.deletefilevar",function(e) {
 </script>
 {% endblock %}
 
-<table style='float:left' class='hovertable'>
+<table style="margin: 0 auto" class='hovertable'>
     <th colspan='6'>        
-        {{fq.name}}
-        <div style="float:right">Priority:{{fq.priority_name}}</div>
+        <div style="float:left">{{fq.name}}</div>
+        <div style="float:right">Priority:<select fq="{{fq.name}}" id="fqpriority">                                           
+                <option value="10" {%if fq.priority == 10 %}selected{%endif%}>Low</option>
+                <option value="5" {%if fq.priority == 5 %}selected{%endif%}>Normal</option>
+                <option value="1" {%if fq.priority == 1 %}selected{%endif%}>High</option>
+            </select>
+        </div>
     </th>
     <tr>
         <td colspan='6'>{{fq.fullname}}</td>

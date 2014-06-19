@@ -21,7 +21,10 @@
         <td>
             <table>
                 <tr>
-                    <td colspan="2">{{node.stage}}</td>
+                    <td colspan="2">
+                        Pipeline: {{node.ProcessingPipeline.name}}<br>
+                        Queue:  <a class="queue" pname="{{node.ProcessingPipeline.name}}" qname="{{node.ProcessingQueue.name}}">{{node.ProcessingQueue.name}}</a>
+                    </td>
                 </tr>
                 <tr>
                     <td style="text-align: center;">                        
@@ -34,14 +37,20 @@
                 </tr>
             </table>
         </td>        
-        <td style='white-space: normal;'>            
-            <table>                
-                {% for file in node.files %}
-                <tr>
-                    <td><a href="" id="showfilelog" fq="{{file}}">{{file}}</a></td>
-                </tr>
-                {% endfor %}            
-            </table>
+        <td style='white-space: nowrap;'>            
+         
+            {% for fq in node.file_info %}
+                <table style='float:left' class='hovertable'>
+                    <th >               
+                        <a href="" id="showfilelog" fq="{{fq.name}}" style="color: rgb(255, 255, 255); background-color:rgb(83, 99, 120); padding: 2px 6px 2px 6px; ">
+                            {%if fq.priority == 1%}<div style="display:inline;background-color: #344553 ;color: #ff6262">{{fq.priority_name}}</div> {%endif%}
+                            {%if fq.priority == 5%}<div style="display:inline;background-color: #344553 ;color: #00c300">{{fq.priority_name}}</div> {%endif%}
+                            {%if fq.priority == 10%}<div style="display:inline;background-color: #344553 ;color: #ffff50">{{fq.priority_name}}</div> {%endif%}
+                    {{fq.name}}</a>
+                    </th>
+                </table>
+            {% endfor %}            
+            
         </td>
     </tr>    
 

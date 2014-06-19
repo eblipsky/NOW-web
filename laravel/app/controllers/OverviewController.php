@@ -28,7 +28,7 @@ class OverviewController extends \BaseController {
                 foreach($queue->files() as $file) { 
                     $key = explode('.', $file->name());
                     $key = $key[0];                
-                    $files[] = array('name' => $file->name(), 'base' => $key, 'queue' => 'error', 'inprocess' => false);                
+                    $files[] = array('name' => $file->name(), 'priority' => $file->priority(), 'base' => $key, 'queue' => 'error', 'inprocess' => false);                
                     $errored[$key] = true;
                 }
                 break;
@@ -40,7 +40,7 @@ class OverviewController extends \BaseController {
             foreach($queue->files() as $file) { 
                 $key = explode('.', $file->name());
                 $key = $key[0];                                                
-                $files[] = array('name' => $file->name(), 'base' => $key, 'queue' => $qname, 'inprocess' => false);                
+                $files[] = array('name' => $file->name(), 'priority' => $file->priority(), 'base' => $key, 'queue' => $qname, 'inprocess' => false);                
                 if ($qname == "done") {
                     if (isset($done_counts[$key])) {
                         $done_counts[$key] += 1;
@@ -56,7 +56,7 @@ class OverviewController extends \BaseController {
                     $file = new HPCFile($fq);
                     $key = explode('.', $file->name());
                     $key = $key[0];                                        
-                    $files[] = array('name' => $file->name(), 'base' => $key, 'queue' => str_replace($pipeline.'_queue_','',$node->stage()), 'inprocess' => true);
+                    $files[] = array('name' => $file->name(), 'priority' => $file->priority(), 'base' => $key, 'queue' => str_replace($pipeline.'_queue_','',$node->stage()), 'inprocess' => true);
                 }
             }
         }        
@@ -65,8 +65,7 @@ class OverviewController extends \BaseController {
         $x = array();
         foreach ($files as $file) {             
             $x[$file['base']][] = $file;            
-        }                        
-        asort($x);
+        }                                
         
         $percents = array();
         foreach ($x as $key => $value) {              
@@ -77,6 +76,8 @@ class OverviewController extends \BaseController {
                 $percents[$key] = 0;
             }            
         }      
+        
+        ksort($x);
   
         //need to do an inprocess column and add the error queue
         
@@ -103,6 +104,7 @@ class OverviewController extends \BaseController {
                 }                
             }
         }                
+        asort($files);
                 
         $percents = array();
         $cnts = array();

@@ -2,6 +2,8 @@
 
 {% block include %}
 <script src="/laravel/public/js/overview.js"></script>
+<script src="/laravel/public/js/editor.js"></script>
+<script src="/laravel/public/js/monitor.js"></script>
 <script>
     $(function() {
         $('#accoridan').accordion({
@@ -12,19 +14,20 @@
             beforeActivate: function( event, ui ) 
                 { 
                     Overview.pipeline = ui.newHeader.text();
-                    Overview.getOverview();
+                    //Overview.getOverview();
                     if (ui.newHeader.text() == "") {
                         //closing
                         Overview.pipeline = "";                        
                         Overview.clearOverview();
                     } else {
                         Overview.pipeline = ui.newHeader.text();                         
-                        Overview.getOverview();
+                        //Overview.getOverview();
                                                                         
                         $( "#pipelineOverview" ).appendTo( "#pipelineOverview-"+Overview.pipeline );
                         $( "#pipelineOverview" ).show();
                                               
                     }
+                    Overview.getOverview();
                 }
         });
     });
@@ -54,11 +57,13 @@
 </div>
 
 <div id="accoridan">        
-    {% for pipeline in pipelines %}            
-        <h>{{pipeline.name}}</h>
-        <div>
-            <div id="pipelineOverview-{{pipeline.name}}"></div>            
-        </div>
+    {% for pipeline in pipelines %} 
+        {% if pipeline.name != "CommandTemplates" %}
+            <h>{{pipeline.name}}</h>
+            <div>
+                <div id="pipelineOverview-{{pipeline.name}}"></div>            
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
 

@@ -31,7 +31,7 @@
     
     <tr>
         <td>
-            <a class="queue" href =''                 
+            <a class="queue" pname="{{queue.pipeline.name}}" qname="{{queue.name}}" href =''                 
                 {% if not queue.active and queue.name != "None" %} 
                     style="color: darkorange" 
                 {% endif %}
