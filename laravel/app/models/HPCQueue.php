@@ -166,7 +166,11 @@ class HPCQueue implements Countable {
     }
     
     function file_cnt() {  
-        return R::connection()->get($this->pipeline->name . "_queue_files_" . $this->name);        
+        $cnt = R::connection()->get($this->pipeline->name . "_queue_files_" . $this->name);
+        if (!$cnt) {
+            $cnt = "MAX_CPU";
+        }
+        return $cnt;
     }
     
     function file_output() {  
