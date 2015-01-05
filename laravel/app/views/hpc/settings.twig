@@ -1,0 +1,22 @@
+{% extends "base" %}
+
+{% block include %}
+<script src="/laravel/public/js/settings.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<form id="SystemSettings" action="" method="post" accept-charset="utf-8">
+    <table class="hovertable">
+
+	    <th>Setting</th><th>Value</th>
+
+    	{% for setting in settings %}
+            <tr><td>{{setting.name}}</td><td><input name="{{setting.name}}" value="{{setting.value}}"></td></tr>
+    	{%endfor %}
+	    
+    	<tr><td colspan="2" style="text-align: right;"><input type="button" value="Save" class="updatesystemsettings"></td></tr>
+    </table>
+</form>
+
+ {% endblock %}

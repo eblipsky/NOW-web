@@ -1,15 +1,28 @@
 {% extends "base" %}
 
 {% block body %}
-    <img style="float:right;" src="/laravel/public/img/weis_center.jpg" />
 
     <div style="width:25%">
         <h3>HPC</h3>
-        <ul>            
+        <ul>
+            <li><a href='hpc/files'>HPC File Manager</a></li>
+            <li><a href='hpc/settings'>HPC Settings</a></li>
             <li><a href='hpc/monitor'>HPC Pipeline Monitor</a></li>
             <li><a href='hpc/batches'>HPC Batch Monitor</a></li>
             <li><a href='hpc/overview'>HPC Pipeline Overview</a></li>
         </ul>
+
+        <h3>Project Plan</h3>
+        <ol>            
+            <li>repurpose batch function for the following</li>
+            <li>allow selection of files, files copied under batch folder</li>
+            <li>processing happens under batch folder like it does now</li>
+            <li>files in batch folder get unique rename - handled by new file object</li>
+            <li>maybe give each task its own folder too</li>
+            <li>move away from generic files and only allow bam and fq imports, possiblly VCFs</li>
+            <li>on inport do a wizzard thing and get all the reference files and such setup too</li>
+           
+        </ol>
 
 	</br>
 	</br>

@@ -17,6 +17,11 @@ class HPCFile {
         }
         return $files;
     }
+
+    public static function import() {
+        exec("RESEARCH_HOME=/opt/NOW /opt/NOW/tools/bin/pipeline import 2>&1", $out, $ret);
+        return $out; 
+    }
     
     public static function find($pipeline,$queue) {
         
@@ -97,6 +102,10 @@ class HPCFile {
         return $this->fq;
     }
     
+    public function guid() {
+        return R::connection()->hget("imported_files", $this->fq);
+    }
+
     public function filename() {
         return R::connection()->hget("finfo_".$this->fq,'filename');
         //return $this->info['filename'];

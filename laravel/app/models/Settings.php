@@ -9,6 +9,8 @@ class Settings {
     const REDIS_PORT = 6379;
     const REDIS_DB = 0;
     
+    const DATA_DIR = '/opt/NOW/data';
+    
 }
 
 ?>

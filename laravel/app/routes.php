@@ -20,6 +20,11 @@ Route::get('hpc/pipeline/{pipeline}/overview', 'OverviewController@overview');
 
 Route::get('hpc/log/{logid}', 'LogController@index');
 
+Route::get('hpc/fm', 'FileManagerController@index');
+
+Route::get('hpc/settings', 'SettingsController@index');
+Route::post('hpc/settings', 'SettingsController@save');
+
 Route::get('hpc/batches', 'HPCBatchController@index');
 Route::get('hpc/batches/create', 'HPCBatchController@create');
 Route::post('hpc/batches', 'HPCBatchController@store');
@@ -36,6 +41,7 @@ Route::get('hpc/monitor', 'HPCController@monitor');
 
 Route::get('hpc/newfiles', 'FilesController@newfiles');
 Route::get('hpc/files', 'FilesController@allfiles');
+Route::get('hpc/files/import', 'FilesController@import');
 Route::get('hpc/file/{fq}', 'FilesController@file');
 Route::post('hpc/files/priority', 'FilesController@setPriority');
 

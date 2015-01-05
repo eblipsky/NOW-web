@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Weis Research</title>        
+        <title>{{company}}</title>        
         <link href="/laravel/public/css/common.css" rel="stylesheet">         
         <link href="/laravel/public/jquery/css/wcr/jquery-ui-1.10.3.custom.css" rel="stylesheet">               
         <script src="/laravel/public/jquery/js/jquery-1.9.1.js"></script>
@@ -11,12 +11,12 @@
     </head>
     <body>
         <div id="logo">
-            <a href="/" title="Geisinger">
-                <img border="0" width="243" vspace="0" hspace="0" height="35" alt="Geisinger" src="/laravel/public/img/geisinger_logo.png"></img>
+            <a href="/" title="{{company}}">
+                <img border="0" alt="{{company}}" src="{{logo}}"></img>
             </a>
         </div>   
         <div id="main-container">
-            <h1><a href="/">Weis Research</a></h1>
+            <h1><a href="/">{{division}}</a></h1>
             <div id="container">
                 <h2>{{ content_title }}</h2>
                 <div id="body">{% block body%}{% endblock %}</div>            

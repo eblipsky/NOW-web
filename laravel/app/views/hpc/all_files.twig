@@ -1,18 +1,42 @@
 {% extends "base" %}
 
+{% block include %}
+
+    <script src="/laravel/public/js/files.js"></script>
+   
+<script> 
+    $(document).on("click", "input#ImportFiles", function(e){
+        e.preventDefault();
+        Files.Import();
+    });
+</script>
+
+{% endblock %}
+
 {% block body %}
 
-<table class='hovertable'>
-    <th>Name</th>
-    <th>Path</th>
-    <th>inProcess</th>
-    {% for fq in files %}
-    <tr>
-        <td>{{fq.name}}</td>
-        <td>{{fq.fullname}}</td>
-        <td>{% if fq.inProcess %} <div style="color: red">Ture</div> {% else %} <div style="color: red">False</div> {% endif %}</td>
-    </tr>        
-    {% endfor %}
-</table>
+<fieldset>
+    <legend>Import Files</legend>
+    <input id="ImportFiles" type="button" value="import files" />
+    </br>
+    </br>
+    <div id="ImportLoading"></div>
+</fieldset>
+</br>
+<fieldset>
+    <legend>Current Files</legend>
+    <table class='hovertable'>
+        <th>Name</th>
+        <th>GUID</th>
+        <th>inProcess</th>
+        {% for fq in files %}
+        <tr>
+            <td>{{fq.name}}</td>
+            <td>{{fq.guid}}</td>
+            <td>{% if fq.inProcess %} <div style="color: red">Ture</div> {% else %} <div style="color: red">False</div> {% endif %}</td>
+        </tr>        
+        {% endfor %}
+    </table>
+</fieldset>
 
 {% endblock %}

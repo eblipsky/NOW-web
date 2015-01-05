@@ -22,6 +22,7 @@ class FilesController extends \BaseController {
         
         $files = HPCFile::all();
         $this->data['files'] = $files;
+        $this->data['content_title'] = "File Manager";
         
         return View::make('hpc/all_files',$this->data);
         
@@ -34,6 +35,10 @@ class FilesController extends \BaseController {
         
         return View::make('hpc/file_info',$this->data);
         
+    }
+
+    public function import() {
+        return HPCFile::import();
     }
     
     public function setPriority() {     
